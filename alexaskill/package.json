@@ -1,0 +1,10 @@
+{
+  "name": "serverless-iot-cam-alexaskill",
+  "description": "",
+  "version": "1.0.0",
+  "dependencies": {
+    "ask-sdk-core": "^2.8.0",
+    "ask-sdk-model": "^1.28.0"
+  },
+  "devDependencies": {}
+}
