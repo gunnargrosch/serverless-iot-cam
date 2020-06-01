@@ -1,0 +1,66 @@
+service: serverless-iot-cam
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  environment:
+    BUCKET_NAME: ${self:service}-${opt:stage, self:provider.stage}
+    OBJECT_PATH: ${file(env.yml):OBJECT_PATH}
+    OBJECT_NAME: ${file(env.yml):OBJECT_NAME}
+    IOT_ENDPOINT: ${file(env.yml):IOT_ENDPOINT}
+    IOT_TOPIC_PUB: ${file(env.yml):IOT_TOPIC_PUB}
+    IOT_TOPIC_SUB: ${file(env.yml):IOT_TOPIC_SUB}
+    IOT_QOS: ${file(env.yml):IOT_QOS}
+    IOT_PAYLOAD: ${file(env.yml):IOT_PAYLOAD}
+
+functions:
+  object:
+    handler: object.handler
+    events:
+      - iot:
+          
+          sql: "SELECT encode(*, 'base64') AS data FROM '${self:provider.environment.IOT_TOPIC_SUB}'"
+          sqlVersion: "2016-03-23"
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - s3:PutObject
+        Resource: "arn:aws:s3:::${self:provider.environment.BUCKET_NAME}/*"
+  publish:
+    handler: publish.handler
+    events:
+      - http:
+          path: publish
+          method: post
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - iot:Publish
+        Resource:
+          - Fn::Sub: 'arn:aws:iot:#{AWS::Region}:#{AWS::AccountId}:topic/${self:provider.environment.IOT_TOPIC_PUB}'
+
+resources:
+  Resources:
+    ServerlessIotCamBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.BUCKET_NAME}
+        AccessControl: PublicRead
+    ServerlessIotCamBucketPolicy:
+      Type: "AWS::S3::BucketPolicy"
+      DependsOn: ServerlessIotCamBucket
+      Properties:
+        Bucket: ${self:provider.environment.BUCKET_NAME}
+        PolicyDocument:
+          Statement:
+            - Effect: Allow
+              Principal: "*"
+              Action:
+                - "s3:GetObject"
+              Resource:
+                - "arn:aws:s3:::${self:provider.environment.BUCKET_NAME}/*"
+
+plugins:
+  - serverless-iam-roles-per-function
+  - serverless-pseudo-parameters
