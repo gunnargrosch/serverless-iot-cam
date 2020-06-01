@@ -46,20 +46,6 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:provider.environment.BUCKET_NAME}
-        AccessControl: PublicRead
-    ServerlessIotCamBucketPolicy:
-      Type: "AWS::S3::BucketPolicy"
-      DependsOn: ServerlessIotCamBucket
-      Properties:
-        Bucket: ${self:provider.environment.BUCKET_NAME}
-        PolicyDocument:
-          Statement:
-            - Effect: Allow
-              Principal: "*"
-              Action:
-                - "s3:GetObject"
-              Resource:
-                - "arn:aws:s3:::${self:provider.environment.BUCKET_NAME}/*"
 
 plugins:
   - serverless-iam-roles-per-function
