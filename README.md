@@ -6,6 +6,8 @@
 
 Using the sample code you can connect an ESP32-CAM device to AWS IoT Core and have it take pictures on-demand and store them in S3. Uses serverless technology and fully managed services.
 
+ ![Serverless IoT Cam Architecture](serverless-iot-cam-architecture.png?raw=true "Serverless IoT Cam Architecture")
+
 ## How to setup device
 
 1. Open `device` subfolder in VS Code and install PlatformIO extension.
