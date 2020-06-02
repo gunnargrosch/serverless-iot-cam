@@ -8,6 +8,8 @@ Using the sample code you can connect an ESP32-CAM device to AWS IoT Core and ha
 
  ![Serverless IoT Cam Architecture](serverless-iot-cam-architecture.png?raw=true "Serverless IoT Cam Architecture")
 
+ [Recording from Nordic Serverless May 27th](https://www.youtube.com/watch?v=2aEVxsrRs8g)
+
 ## How to setup device
 
 1. Open `device` subfolder in VS Code and install PlatformIO extension.
