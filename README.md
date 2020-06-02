@@ -18,6 +18,8 @@ Using the sample code you can connect an ESP32-CAM device to AWS IoT Core and ha
 4. Create `lib/conf/conf.h` based on `lib/conf/conf.h.template`. Update WIFI_SSID, WIFI_PASSWORD, DEVICE_NAME, AWS_IOT_SUB_TOPIC, AWS_IOT_PUB_TOPIC, AWS_IOT_ENDPOINT and the three certificates. 
 5. Flash your device. Keep an eye on the serial output to see that all goes well.
 
+Read Nathan Glover's blog post for more information: https://devopstar.com/2020/05/16/aws-iot-esp32-cam-setup
+
 ## How to setup backend using Serverless Framework
 
 1. Open `backend` subfolder in VS Code.
